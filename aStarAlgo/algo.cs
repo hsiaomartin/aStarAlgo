@@ -120,10 +120,10 @@ namespace aStarAlgo
             
 
             cellDetails[src.x, src.y].parent_x = src.x;
-            cellDetails[src.x, src.y].parent_y = src.y;            
+            cellDetails[src.x, src.y].parent_y = src.y;
+            cellDetails[src.x, src.y].f = 0;
             cellDetails[src.x, src.y].g = 0;
-            cellDetails[src.x, src.y].h = calculateHeuristics(src, tar);
-            cellDetails[src.x, src.y].f = cellDetails[src.x, src.y].g + cellDetails[src.x, src.y].h;
+            cellDetails[src.x, src.y].h = 0;
             openList.Add(new nextCell(0, cellDetails[src.x, src.y]));
 
             while (openList.Any())
