@@ -120,15 +120,20 @@ namespace aStarAlgo
             
 
             cellDetails[src.x, src.y].parent_x = src.x;
-            cellDetails[src.x, src.y].parent_y = src.y;
-            cellDetails[src.x, src.y].f = 0;
+            cellDetails[src.x, src.y].parent_y = src.y;            
             cellDetails[src.x, src.y].g = 0;
-            cellDetails[src.x, src.y].h = 0;
+            cellDetails[src.x, src.y].h = calculateHeuristics(src, tar);
+            cellDetails[src.x, src.y].f = cellDetails[src.x, src.y].g + cellDetails[src.x, src.y].h;
             openList.Add(new nextCell(0, cellDetails[src.x, src.y]));
 
             while (openList.Any())
-            {
-                Console.WriteLine("openlist cell: " + openList.Count);
+            {                
+                String routeStr = $"openlist cell count: {openList.Count}\n";
+                foreach (var path in openList)
+                {
+                    routeStr += $"openlist cell: f:{path.Item1}, ({path.Item2.x}, {path.Item2.y})\n";
+                }
+                Console.WriteLine(routeStr);
                 nextCell currData = openList.First();
                 int x = currData.Item2.x;
                 int y = currData.Item2.y;
@@ -259,9 +264,26 @@ namespace aStarAlgo
 
     public class CellComparer : IComparer<compareCell>
     {
-        public int Compare(compareCell x, compareCell y)
+        public int Compare(compareCell a, compareCell b)
         {
-            return x.Item1.CompareTo(y.Item1);
+            int compare = a.Item1.CompareTo(b.Item1);
+            if (compare == 0)
+            {
+                int compare2 = a.Item2.x.CompareTo(b.Item2.x);
+                if (compare2 == 0)
+                {
+                    return a.Item2.y.CompareTo(b.Item2.y);
+                }
+                else
+                {
+                    return compare2;
+                }
+            }
+            else
+            {
+                return compare;
+            }
+            
         }
     }
 }
